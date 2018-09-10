@@ -1,0 +1,21 @@
+version: '3'
+services:
+    web:
+        build: ./web
+        ports:
+            - '8080:8080'
+        volumes:
+            - ./web/src:/var/app:ro
+        environment:
+            ALIAS: '/'
+        depends_on:
+            - db
+    db:
+        build: ./db
+        volumes:
+            - db:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: 'password'
+volumes:
+    db:
+
