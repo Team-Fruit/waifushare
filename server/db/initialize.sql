@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXITS `waifushare_db`.`twimg` (
     UNIQUE KEY `twitter_id` ( `twitter_id` )
 );
 
-CREATE TABLE IF NOT EXITS `waifushare_image`.`image` (
+CREATE TABLE IF NOT EXITS `waifushare_db`.`image` (
     `id`            INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `created_at`    DATETIME        NOT NULL CURRENT_TIMESTAMP,
+    `created_at`    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `created_by`    INT UNSIGNED    NOT NULL,
     `twitter_id`    TINYTEXT        NOT NULL,
 
@@ -37,10 +37,12 @@ CREATE TABLE IF NOT EXITS `waifushare_image`.`image` (
         ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXITS `waifushare_image`.`user__image` (
+CREATE TABLE IF NOT EXITS `waifushare_db`.`user__image` (
     `user_id`   INT UNSIGNED    NOT NULL,
     `image_id`  INT UNSIGNED    NOT NULL,
-    `is_like`   INT             NOT NULL,
+    `is_like`   BOOLEAN         NOT NULL,
+
+    PRIMARY KEY ( `user_id`, `image_id` ),
 
     CONSTRAINT `fk__user__image__user__id`
         FOREIGN KEY ( `user_id` )
