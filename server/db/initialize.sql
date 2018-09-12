@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXITS `waifushare_db`.`image` (
     `id`            INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     `created_at`    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `created_by`    INT UNSIGNED    NOT NULL,
-    `twitter_id`    TINYTEXT        NOT NULL,
+    `twitter_id`    TINYTEXT,
 
     PRIMARY KEY ( `id` ),
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXITS `waifushare_db`.`image` (
 CREATE TABLE IF NOT EXITS `waifushare_db`.`user__image` (
     `user_id`   INT UNSIGNED    NOT NULL,
     `image_id`  INT UNSIGNED    NOT NULL,
-    `is_like`   BOOLEAN         NOT NULL,
+    `is_like`   INT             NOT NULL,
 
     PRIMARY KEY ( `user_id`, `image_id` ),
 
