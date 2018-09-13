@@ -5,10 +5,11 @@ CREATE DATABASE IF NOT EXISTS `waifushare_db`;
 
 CREATE TABLE IF NOT EXISTS `waifushare_db`.`user` (
     `id`                INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `user_id`           VARCHAR(15)    NOT NULL,
-    `display_name`      TINYTEXT        NOT NULL,
-    `password_hash`     TINYTEXT        NOT NULL,
-    `saved_image_id`    INT UNSIGNED    NOT NULL,
+    `user_id`           VARCHAR(15)     NOT NULL,
+    `display_name`      TINYTEXT,
+    `password_hash`     TINYTEXT,
+    `saved_image_id`    INT UNSIGNED,
+    `account_status`    INT             NOT NULL,
 
     PRIMARY KEY ( `id` ),
     UNIQUE KEY `user_id` ( `user_id` )
@@ -16,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `waifushare_db`.`user` (
 
 CREATE TABLE IF NOT EXISTS `waifushare_db`.`twimg` (
     `id`            INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `twitter_id`    VARCHAR(255)        NOT NULL,
+    `twitter_id`    VARCHAR(255)    NOT NULL,
     `file_name`     TINYTEXT        NOT NULL,
 
     PRIMARY KEY ( `id` ),
