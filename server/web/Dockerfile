@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y wget \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 RUN go get -u github.com/labstack/echo
+RUN go get -u github.com/dgrijalva/jwt-go
 RUN go get -u github.com/go-sql-driver/mysql
 RUN go get github.com/jmoiron/sqlx
 
