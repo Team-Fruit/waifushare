@@ -4,9 +4,8 @@ import (
     "log"
     "net/http"
     // "starconv" funny typo !
-    "strconv"
+    // "strconv"
     "database/sql"
-    "golang.org/x/crypto/bcrypt"
 
     "github.com/labstack/echo"
     "github.com/labstack/echo/middleware"
@@ -70,7 +69,7 @@ func main() {
 }
 
 func hello(c echo.Context) error {
-    stmt, err := db.Preparex("SELECT COUNT(id) FROM user")
+    /* stmt, err := db.Preparex("SELECT COUNT(id) FROM user")
     if err != nil {
         return err
     }
@@ -79,7 +78,7 @@ func hello(c echo.Context) error {
     if err != nil {
         return err
     }
-    return c.String(http.StatusOK, strconv.Itoa(cnt))
+    return c.String(http.StatusOK, strconv.Itoa(cnt)) */
 }
 
 func uploadImage(c echo.Context) error {
@@ -100,15 +99,5 @@ func createUser(c echo.Context) error {
 
 func deleteUser(c echo.Context) error {
     return c.String(http.StatusOK, "deleteUser")
-}
-
-func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
-}
-
-func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
 }
 
