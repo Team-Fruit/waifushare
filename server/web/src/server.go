@@ -41,6 +41,9 @@ type (
     }
 )
 
+const (
+    AdminPassword = "$2a$10$hM3xaS4f7i/fAH2pjQxRA.ylxGqE1X2MYUtWohSRuSgyFOCIkOvMe"
+)
 var (
     db *sqlx.DB
 )
@@ -69,6 +72,7 @@ func main() {
 }
 
 func hello(c echo.Context) error {
+    return c.String(http.StatusOK, "Hello World")
     /* stmt, err := db.Preparex("SELECT COUNT(id) FROM user")
     if err != nil {
         return err
