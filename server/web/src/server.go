@@ -9,6 +9,7 @@ import (
 
     "github.com/labstack/echo"
     "github.com/labstack/echo/middleware"
+    "./handler"
 
     _ "github.com/go-sql-driver/mysql"
     "github.com/jmoiron/sqlx"
@@ -44,6 +45,7 @@ type (
 const (
     AdminPassword = "$2a$10$hM3xaS4f7i/fAH2pjQxRA.ylxGqE1X2MYUtWohSRuSgyFOCIkOvMe"
 )
+
 var (
     db *sqlx.DB
 )
@@ -62,11 +64,14 @@ func main() {
     e.Use(middleware.Recover())
 
     e.GET("/", hello)
-    e.POST("/api/v1/image", uploadImage)
-    e.PUT("/api/v1/user/password", updateUserPassword)
-    e.PUT("/api/v1/user", updateUser)
-    e.POST("/api/v1/user", createUser)
-    e.DELETE("/api/v1/user", deleteUser)
+
+    apiv1 := e.Group("/api/v1")
+    
+    apiv1.POST("/image", handler.UploadImage)
+    apiv1.PUT("/user/password", handler.UpdateUserPassword)
+    apiv1.PUT("/user", handler.UpdateUser)
+    apiv1.POST("/user", handler.CreateUser)
+    apiv1.DELETE("/user", handler.DeleteUser)
     
     e.Logger.Fatal(e.Start(":8080"))
 }
@@ -83,25 +88,5 @@ func hello(c echo.Context) error {
         return err
     }
     return c.String(http.StatusOK, strconv.Itoa(cnt)) */
-}
-
-func uploadImage(c echo.Context) error {
-    return c.String(http.StatusOK, "upload")
-}
-
-func updateUserPassword(c echo.Context) error {
-    return c.String(http.StatusOK, "userPasswordUpdate")
-}
-
-func updateUser(c echo.Context) error {
-    return c.String(http.StatusOK, "userUpdate")
-}
-
-func createUser(c echo.Context) error {
-    return c.String(http.StatusOK, "createUser")
-}
-
-func deleteUser(c echo.Context) error {
-    return c.String(http.StatusOK, "deleteUser")
 }
 
