@@ -5,7 +5,7 @@ services:
         ports:
             - '8080:8080'
         volumes:
-            - ./web/src:/var/app:ro
+            - ./web/src:/var/app
         environment:
             ALIAS: '/'
         depends_on:
