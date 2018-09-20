@@ -52,9 +52,7 @@ namespace WaifuShare {
                     "configure.ini"
                 );
 
-                string server = new StringContent(
-                    GetIniValue(iniPath, "configure", "server")
-                );
+                string server = GetIniValue(iniPath, "configure", "server");
 
                 MultipartFormDataContent form = new MultipartFormDataContent();
 
