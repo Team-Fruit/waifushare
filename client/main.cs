@@ -52,6 +52,10 @@ namespace WaifuShare {
                     "configure.ini"
                 );
 
+                string server = new StringContent(
+                    GetIniValue(iniPath, "configure", "server")
+                );
+
                 MultipartFormDataContent form = new MultipartFormDataContent();
 
                 FileStream fs = new FileStream(
@@ -64,21 +68,21 @@ namespace WaifuShare {
                     new StringContent(
                         GetIniValue(iniPath, "configure", "username")
                     ),
-                    "UserName"
+                    "username"
                 );
 
                 form.Add(
                     new StringContent(
                         GetIniValue(iniPath, "configure", "password")
                     ),
-                    "Password"
+                    "password"
                 );
 
                 form.Add(
                     new StringContent(
                         e.Name.Split('-')[1]
                     ),
-                    "TweetID"
+                    "tweet_id"
                 );
 
                 byte[] bs = new byte[fs.Length];
@@ -87,14 +91,14 @@ namespace WaifuShare {
 
                 form.Add(
                     new ByteArrayContent(bs, 0, bs.Length),
-                    "Image",
+                    "image",
                     e.Name
                 );
 
                 HttpClient httpClient = new HttpClient();
 
                 HttpResponseMessage response = await httpClient.PostAsync(
-                    server + "upload",
+                    server + "/api/v1/image",
                     form
                 );
 
