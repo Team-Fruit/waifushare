@@ -120,7 +120,7 @@ namespace WaifuShare {
                 }
 
                 if (!hasHandle) {
-                    MessageBox.Show("多重起動しようとしています");
+                    MessageBox.Show("既に起動しています。");
                     return;
                 }
 
