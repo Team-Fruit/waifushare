@@ -2,6 +2,7 @@ package main
 
 import (
     "log"
+    "os"
     "net/http"
     // "starconv" funny typo !
     // "strconv"
@@ -58,8 +59,16 @@ func main() {
     }
     defer db.Close()
     
+    if _, err = os.Stat("../images"); os.IsNotExist(err) {
+        if err = os.Mkdir("../images", 0755); err != nil {
+            log.Fatalln(err)
+        }
+    }
+
     e := echo.New()
     
+    e.Static("/images", "/var/images")
+
     e.Use(middleware.Logger())
     e.Use(middleware.Recover())
 
