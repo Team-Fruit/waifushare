@@ -10,6 +10,7 @@ import (
 
     "github.com/labstack/echo"
     "github.com/labstack/echo/middleware"
+    "gopkg.in/go-playground/validator.v9"
     "./handler"
 
     _ "github.com/go-sql-driver/mysql"
@@ -17,6 +18,10 @@ import (
 )
 
 type (
+    Validator struct {
+        validator *validator.Validate
+    }
+
     User struct {
         ID uint
         UserID string `db:"user_id"`
@@ -51,6 +56,10 @@ var (
     db *sqlx.DB
 )
 
+func (v *Validator) Validate(i interface{}) error {
+    return v.validator.Struct(i)
+}
+
 func main() {
     var err error
     db, err = sqlx.Connect("mysql", "waifushare:@tcp(db:3306)/waifushare_db")
@@ -67,11 +76,13 @@ func main() {
 
     e := echo.New()
     
-    e.Static("/images", "/var/images")
-
     e.Use(middleware.Logger())
     e.Use(middleware.Recover())
 
+    e.Validator = &Validator{validator: validator.New()}
+
+    e.Static("/images", "/var/images")
+    
     e.GET("/", hello)
 
     apiv1 := e.Group("/api/v1")
@@ -82,7 +93,7 @@ func main() {
     apiv1.POST("/user", handler.CreateUser)
     apiv1.DELETE("/user", handler.DeleteUser)
     
-    e.Logger.Fatal(e.Start(":8080"))
+    e.Logger.Fatal(e.Start(":80"))
 }
 
 func hello(c echo.Context) error {

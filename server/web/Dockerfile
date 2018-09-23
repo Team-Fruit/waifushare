@@ -11,6 +11,7 @@ RUN go get -u github.com/labstack/echo
 RUN go get -u github.com/dgrijalva/jwt-go
 RUN go get -u github.com/go-sql-driver/mysql
 RUN go get github.com/jmoiron/sqlx
+RUN go get gopkg.in/go-playground/validator.v9
 
 WORKDIR /var/app/
 
