@@ -8,19 +8,32 @@ import (
     "github.com/labstack/echo"
 )
 
-type Message struct {
-    Message string `json:"message"`
-}
+type (
+    Image struct {
+        Username string `form:"username" validate:"required"`
+        Password string `form:"password" validate:"required"`
+        Tweet_id string `form:"tweet_id" validate:"required,numeric"`
+    }
+    Message struct {
+        Message string `json:"message"`
+    }
+)
 
 func UploadImage(c echo.Context) error {
-    // username := c.FormValue("UserName")
-    // password := c.FormValue("Password")
-    // tweetid := c.FormValue("TweetID")
-
-    file, err := c.FormFile("Image")
+    cc := c.(*CustomContext)
+    i := new(Image)
+    if err := cc.BindValidate(i); err != nil {
+        return err
+    }
+    
+    file, err := cc.FormFile("image")
+    if file == nil {
+        return echo.NewHTTPError(http.StatusBadRequest)
+    }
     if err != nil {
         return err
     }
+    
     src, err := file.Open()
     if err != nil {
         return err
@@ -37,7 +50,7 @@ func UploadImage(c echo.Context) error {
         return err
     }
 
-    res := &Message{
+    res := &Message {
         Message: "OK",
     }
     return c.JSON(http.StatusOK, res)

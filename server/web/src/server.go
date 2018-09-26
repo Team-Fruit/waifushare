@@ -10,11 +10,17 @@ import (
 
     "github.com/labstack/echo"
     "github.com/labstack/echo/middleware"
+    
     "gopkg.in/go-playground/validator.v9"
+    
     "./handler"
 
     _ "github.com/go-sql-driver/mysql"
     "github.com/jmoiron/sqlx"
+)
+
+const (
+    AdminPassword = "$2a$10$hM3xaS4f7i/fAH2pjQxRA.ylxGqE1X2MYUtWohSRuSgyFOCIkOvMe"
 )
 
 type (
@@ -48,10 +54,6 @@ type (
     }
 )
 
-const (
-    AdminPassword = "$2a$10$hM3xaS4f7i/fAH2pjQxRA.ylxGqE1X2MYUtWohSRuSgyFOCIkOvMe"
-)
-
 var (
     db *sqlx.DB
 )
@@ -75,11 +77,17 @@ func main() {
     }
 
     e := echo.New()
-    
+
+    e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
+        return func(c echo.Context) error {
+            cc := &handler.CustomContext{c}
+            return h(cc)
+        }
+    })
     e.Use(middleware.Logger())
     e.Use(middleware.Recover())
 
-    e.Validator = &Validator{validator: validator.New()}
+    e.Validator = &Validator{validator: handler.Validate}
 
     e.Static("/images", "/var/images")
     
