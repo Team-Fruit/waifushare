@@ -3,9 +3,10 @@ services:
     web:
         build: ./web
         ports:
-            - '8080:8080'
+            - '80:80'
         volumes:
-            - ./web/src:/var/app
+            - ./web/images:/var/images
+            - ./web:/var/app:ro
         environment:
             ALIAS: '/'
         depends_on:
