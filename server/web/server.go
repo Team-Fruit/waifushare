@@ -13,7 +13,7 @@ import (
     
     "gopkg.in/go-playground/validator.v9"
     
-    "./handler"
+    "github.com/Team-Fruit/waifushare/server/web/handlers"
 
     _ "github.com/go-sql-driver/mysql"
     "github.com/jmoiron/sqlx"
